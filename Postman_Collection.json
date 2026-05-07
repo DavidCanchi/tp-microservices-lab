@@ -1,0 +1,435 @@
+{
+  "info": {
+    "_postman_id": "tp-microservices-collection",
+    "name": "TP-Microservices API",
+    "description": "Colección de pruebas para los 3 microservicios (Products, Customer, Orders)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Products API",
+      "description": "Endpoints del microservicio de Productos",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5085/api/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5085",
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "Obtiene lista de todos los productos"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5085/api/products/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5085",
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "Obtiene un producto específico por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop Dell\",\n  \"description\": \"Laptop de 15 pulgadas con procesador i7\",\n  \"price\": 1200.00,\n  \"stock\": 10\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5085/api/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5085",
+              "path": [
+                "api",
+                "products"
+              ]
+            },
+            "description": "Crea un nuevo producto"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop HP\",\n  \"description\": \"Laptop de 15 pulgadas actualizada\",\n  \"price\": 1100.00,\n  \"stock\": 15\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5085/api/products/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5085",
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "Actualiza un producto existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5085/api/products/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5085",
+              "path": [
+                "api",
+                "products",
+                "1"
+              ]
+            },
+            "description": "Elimina un producto"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Customer API",
+      "description": "Endpoints del microservicio de Clientes",
+      "item": [
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5241/api/customers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5241",
+              "path": [
+                "api",
+                "customers"
+              ]
+            },
+            "description": "Obtiene lista de todos los clientes"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5241/api/customers/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5241",
+              "path": [
+                "api",
+                "customers",
+                "1"
+              ]
+            },
+            "description": "Obtiene un cliente específico por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan García\",\n  \"email\": \"juan@example.com\",\n  \"address\": \"Calle Principal 123, Madrid\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5241/api/customers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5241",
+              "path": [
+                "api",
+                "customers"
+              ]
+            },
+            "description": "Crea un nuevo cliente"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan González\",\n  \"email\": \"juan.gonzalez@example.com\",\n  \"address\": \"Calle Nueva 456, Barcelona\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5241/api/customers/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5241",
+              "path": [
+                "api",
+                "customers",
+                "1"
+              ]
+            },
+            "description": "Actualiza un cliente existente"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5241/api/customers/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5241",
+              "path": [
+                "api",
+                "customers",
+                "1"
+              ]
+            },
+            "description": "Elimina un cliente"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders API",
+      "description": "Endpoints del microservicio de Órdenes",
+      "item": [
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5024/api/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5024",
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "description": "Obtiene lista de todas las órdenes"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5024/api/orders/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5024",
+              "path": [
+                "api",
+                "orders",
+                "1"
+              ]
+            },
+            "description": "Obtiene una orden específica por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Orders By Customer ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5024/api/orders/customer/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5024",
+              "path": [
+                "api",
+                "orders",
+                "customer",
+                "1"
+              ]
+            },
+            "description": "Obtiene todas las órdenes de un cliente específico"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": 1,\n  \"customerName\": \"Juan García\",\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"productName\": \"Laptop Dell\",\n      \"quantityRequested\": 2,\n      \"unitPrice\": 1200.00\n    },\n    {\n      \"productId\": 2,\n      \"productName\": \"Mouse Logitech\",\n      \"quantityRequested\": 3,\n      \"unitPrice\": 45.00\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5024/api/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5024",
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "description": "Crea una nueva orden con múltiples productos"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"Juan García Actualizado\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5024/api/orders/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5024",
+              "path": [
+                "api",
+                "orders",
+                "1"
+              ]
+            },
+            "description": "Actualiza los datos básicos de una orden"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5024/api/orders/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5024",
+              "path": [
+                "api",
+                "orders",
+                "1"
+              ]
+            },
+            "description": "Elimina o cancela una orden específica"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

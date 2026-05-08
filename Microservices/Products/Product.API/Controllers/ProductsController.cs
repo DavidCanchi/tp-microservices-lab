@@ -5,6 +5,17 @@ using Product.Domain.Repositories;
 
 namespace Product.API.Controllers;
 
+/// <summary>
+/// Request para actualizar el stock de un producto
+/// </summary>
+public class StockUpdateRequest
+{
+    /// <summary>
+    /// Cantidad a sumar o restar al stock (negativo para reducir)
+    /// </summary>
+    public int Stock { get; set; }
+}
+
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
@@ -69,6 +80,28 @@ public class ProductsController : ControllerBase
         await _repository.SaveChangesAsync();
 
         return NoContent();
+    }
+
+    /// <summary>
+    /// Actualiza el stock de un producto (reducir o aumentar)
+    /// Body: { "stock": -5 } para reducir 5 unidades, o { "stock": 10 } para aumentar 10
+    /// </summary>
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateStock(int id, [FromBody] StockUpdateRequest request)
+    {
+        var product = await _repository.GetByIdAsync(id);
+        if (product == null)
+            return NotFound($"Producto con id {id} no encontrado");
+
+        int newStock = product.Stock + request.Stock;
+        if (newStock < 0)
+            return BadRequest($"Stock no puede ser negativo. Stock actual: {product.Stock}, cambio: {request.Stock}");
+
+        product.Stock = newStock;
+        await _repository.UpdateAsync(product);
+        await _repository.SaveChangesAsync();
+
+        return Ok(new { id = product.Id, name = product.Name, newStock = product.Stock });
     }
 
     [HttpDelete("{id}")]

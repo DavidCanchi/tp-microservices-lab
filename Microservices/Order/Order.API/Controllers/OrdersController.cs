@@ -72,7 +72,7 @@ public class OrdersController : ControllerBase
     /// Crea una nueva orden
     /// 
     /// LÓGICA DE NEGOCIO:
-    /// 1. Valida que el cliente exista en Customer.API
+    /// 1. Valida que el cliente exista en Customer.API (con fallback para desarrollo)
     /// 2. Verifica el stock disponible de cada producto en Product.API
     /// 3. Si la cantidad pedida > stock disponible, permite comprar solo la cantidad disponible
     /// 4. Actualiza el stock de los productos en Product.API
@@ -87,13 +87,21 @@ public class OrdersController : ControllerBase
 
         try
         {
-            // 1. Validar que el cliente existe
+            // 1. Validar que el cliente existe (con fallback para desarrollo)
             _logger.LogInformation($"Validando cliente {createOrderDto.CustomerId}");
             var customer = await _customerServiceClient.GetCustomerAsync(createOrderDto.CustomerId);
-            if (customer == null)
+            
+            // En desarrollo, si no se puede conectar a Customer.API, continuamos igual
+            // (asumiendo que el cliente existe)
+            if (customer == null && !HttpContext.Request.Host.Host.Equals("localhost"))
             {
                 _logger.LogWarning($"Cliente {createOrderDto.CustomerId} no encontrado");
                 return BadRequest($"Cliente con ID {createOrderDto.CustomerId} no existe en el sistema");
+            }
+            
+            if (customer == null)
+            {
+                _logger.LogWarning($"No se pudo validar cliente {createOrderDto.CustomerId} contra Customer.API. Continuando en modo desarrollo...");
             }
 
             // 2. Crear la orden

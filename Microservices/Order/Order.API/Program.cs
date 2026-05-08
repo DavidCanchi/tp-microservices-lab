@@ -34,20 +34,17 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddAutoMapper(cfg => { }, typeof(OrderMapping).Assembly);
 
 // Registrar HttpClient para integraciones con otros microservicios
-builder.Services.AddHttpClient<ProductServiceClient>(client =>
+builder.Services.AddHttpClient<IProductServiceClient, ProductServiceClient>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["Services:ProductApi"] ?? "http://localhost:5001");
+    client.BaseAddress = new Uri(builder.Configuration["Services:ProductApi"] ?? "http://localhost:5085");
     client.Timeout = TimeSpan.FromSeconds(10);
 });
 
-builder.Services.AddHttpClient<CustomerServiceClient>(client =>
+builder.Services.AddHttpClient<ICustomerServiceClient, CustomerServiceClient>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["Services:CustomerApi"] ?? "http://localhost:5000");
+    client.BaseAddress = new Uri(builder.Configuration["Services:CustomerApi"] ?? "http://localhost:5241");
     client.Timeout = TimeSpan.FromSeconds(10);
 });
-
-builder.Services.AddScoped<IProductServiceClient, ProductServiceClient>();
-builder.Services.AddScoped<ICustomerServiceClient, CustomerServiceClient>();
 
 var app = builder.Build();
 
@@ -56,7 +53,10 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+// Comentamos la redirección HTTPS para evitar problemas de certificados SSL 
+// en la comunicación interna entre microservicios durante desarrollo.
+// app.UseHttpsRedirection();
+
 app.UseRouting();
 app.MapControllers();
 

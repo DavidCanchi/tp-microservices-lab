@@ -3,15 +3,21 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Product.Application.Mappings;
 using Product.Domain.Repositories;
 using Product.Infrastructure.Data;
 using Product.Infrastructure.Repositories;
+using Product.API.Validations;
+using Product.Domain.Models.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

@@ -16,45 +16,45 @@ using Order.Domain.Models.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configurar DbContext - In-Memory Database
+var orderDbName = builder.Configuration["Database:OrderDbName"] ?? "OrderDb";
 builder.Services.AddDbContext<OrderDbContext>(options =>
-    options.UseInMemoryDatabase("OrderDb"));
+    options.UseInMemoryDatabase(orderDbName));
 
-// Registrar Repositorio
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-
-// Registrar AutoMapper
 builder.Services.AddAutoMapper(cfg => { }, typeof(OrderMapping).Assembly);
 
-// Registrar HttpClient para integraciones con otros microservicios
 builder.Services.AddHttpClient<IProductServiceClient, ProductServiceClient>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["Services:ProductApi"] ?? "http://localhost:5085");
-    client.Timeout = TimeSpan.FromSeconds(10);
+    var productApiUrl = builder.Configuration["Services:ProductApi"];
+    if (string.IsNullOrEmpty(productApiUrl))
+        throw new InvalidOperationException("Services:ProductApi debe estar configurado en appsettings.json");
+    
+    client.BaseAddress = new Uri(productApiUrl);
+    client.Timeout = TimeSpan.FromSeconds(double.Parse(
+        builder.Configuration["Services:RequestTimeoutSeconds"] ?? "10"));
 });
 
 builder.Services.AddHttpClient<ICustomerServiceClient, CustomerServiceClient>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["Services:CustomerApi"] ?? "http://localhost:5241");
-    client.Timeout = TimeSpan.FromSeconds(10);
+    var customerApiUrl = builder.Configuration["Services:CustomerApi"];
+    if (string.IsNullOrEmpty(customerApiUrl))
+        throw new InvalidOperationException("Services:CustomerApi debe estar configurado en appsettings.json");
+    
+    client.BaseAddress = new Uri(customerApiUrl);
+    client.Timeout = TimeSpan.FromSeconds(double.Parse(
+        builder.Configuration["Services:RequestTimeoutSeconds"] ?? "10"));
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
-// Habilitamos Swagger siempre para facilitar las pruebas iniciales
 app.UseSwagger();
 app.UseSwaggerUI();
-
-// Comentamos la redirección HTTPS para evitar problemas de certificados SSL 
-// en la comunicación interna entre microservicios durante desarrollo.
 // app.UseHttpsRedirection();
 
 app.UseRouting();

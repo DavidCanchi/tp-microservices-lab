@@ -5,14 +5,8 @@ using Product.Domain.Repositories;
 
 namespace Product.API.Controllers;
 
-/// <summary>
-/// Request para actualizar el stock de un producto
-/// </summary>
 public class StockUpdateRequest
 {
-    /// <summary>
-    /// Cantidad a sumar o restar al stock (negativo para reducir)
-    /// </summary>
     public int Stock { get; set; }
 }
 
@@ -82,10 +76,6 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
 
-    /// <summary>
-    /// Actualiza el stock de un producto (reducir o aumentar)
-    /// Body: { "stock": -5 } para reducir 5 unidades, o { "stock": 10 } para aumentar 10
-    /// </summary>
     [HttpPatch("{id}")]
     public async Task<IActionResult> UpdateStock(int id, [FromBody] StockUpdateRequest request)
     {

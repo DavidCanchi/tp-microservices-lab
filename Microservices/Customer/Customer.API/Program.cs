@@ -22,8 +22,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Configurar DbContext - In-Memory Database
+var customerDbName = builder.Configuration["Database:CustomerDbName"] ?? "CustomerDb";
 builder.Services.AddDbContext<CustomerDbContext>(options =>
-    options.UseInMemoryDatabase("CustomerDb"));
+    options.UseInMemoryDatabase(customerDbName));
 
 // Registrar Repositorio
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -32,46 +33,6 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddAutoMapper(cfg => { }, typeof(CustomerMapping).Assembly);
 
 var app = builder.Build();
-
-// Seed initial data
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<CustomerDbContext>();
-    if (!context.Customers.Any())
-    {
-        context.Customers.AddRange(
-            new Customer.Domain.Models.Entities.Customer
-            {
-                Name = "Carlos López",
-                Email = "carlos.lopez@email.com",
-                Address = "Calle Principal 123, Ciudad",
-                RegistrationDate = DateTime.Now.AddDays(-30)
-            },
-            new Customer.Domain.Models.Entities.Customer
-            {
-                Name = "Juan García",
-                Email = "juan.garcia@email.com",
-                Address = "Avenida Central 456, Ciudad",
-                RegistrationDate = DateTime.Now.AddDays(-20)
-            },
-            new Customer.Domain.Models.Entities.Customer
-            {
-                Name = "María Rodríguez",
-                Email = "maria.rodriguez@email.com",
-                Address = "Plaza Mayor 789, Ciudad",
-                RegistrationDate = DateTime.Now.AddDays(-10)
-            },
-            new Customer.Domain.Models.Entities.Customer
-            {
-                Name = "Ana Martínez",
-                Email = "ana.martinez@email.com",
-                Address = "Paseo del Parque 321, Ciudad",
-                RegistrationDate = DateTime.Now.AddDays(-5)
-            }
-        );
-        context.SaveChanges();
-    }
-}
 
 // Configure the HTTP request pipeline
 // Habilitamos Swagger siempre para facilitar las pruebas iniciales
